@@ -41,8 +41,8 @@
 // ul.insertBefore(newDiv, li);
 
 
-var form = document.querySelector('#addForm');
-var itemList = document.querySelector('#items');
+var form = document.getElementById('addForm');
+var itemList = document.getElementById('items');
 
 //Listen to Submit
 form.addEventListener('submit', addItem);
@@ -54,24 +54,35 @@ itemList.addEventListener('click', removeItem);
 function addItem(e){
     e.preventDefault();
 
-    var newItem = document.querySelector('#item');
+    var newItem = document.getElementById('item');
 
     //creating new li
     var li = document.createElement('li');
-    //creating textNode
-    li.appendChild(document.createTextNode(newItem.value));
     //adding class
-    li.className = 'list-group-item';
+    li.className = 'row-2 list-group-item';
     //appending li to itemlist
-    
 
     //creating delete button
     var deleteBtn = document.createElement('button');
     //adding class to delete
-    deleteBtn.className = 'btn btn-danger btn-sm float-right delete'; 
+    deleteBtn.className = 'btn btn-danger btn-sm delete'; 
     deleteBtn.appendChild(document.createTextNode('X'));
 
-    li.appendChild(deleteBtn);
+    //creating edit button
+    var editBtn = document.createElement('button');
+    //adding class to edit
+    editBtn.className = 'btn btn-success btn-sm';
+    editBtn.appendChild(document.createTextNode('Edit'));
+
+       //creating a div;
+    var div = document.createElement('div');
+    div.className = 'float-right';
+
+    div.appendChild(deleteBtn);   
+    div.appendChild(editBtn); 
+    //creating textNode
+    li.appendChild(document.createTextNode(newItem.value));
+    li.appendChild(div);
     itemList.appendChild(li);
 
 }
@@ -80,7 +91,7 @@ function addItem(e){
 function removeItem(e){
     if(e.target.classList.contains('delete')){
         if(confirm('are you sure?')){
-            var li = e.target.parentElement;
+            var li = e.target.parentElement.parentElement;
             itemList.removeChild(li);
         }
     }
