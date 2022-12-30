@@ -52,16 +52,56 @@ itemList.addEventListener('click', removeItem);
 
 //adding Item
 function addItem(e){
+
     e.preventDefault();
 
     var newItem = document.getElementById('item');
+    var ele = document.querySelector('.msg');
+        console.log(ele);
+    if(newItem.value==''){
+        var msg = document.querySelector('.msg');
+        msg.classList.add('error');
+        msg.innerHTML = "Please enter all fields";
+        setTimeout(() => {msg.remove(); location.reload()}, 3000);
+    }
 
-    itemList.innerHTML += (`<li class="list-group-item">${newItem.value} 
-    <div class="float-right">
-      <button class="btn btn-danger btn-sm delete">X</button>
-      <button class="btn btn-success btn-sm">Edit</button> 
-    </div>
-  </li>`);
+    //creating new li
+    var li = document.createElement('li');
+    //adding class
+    li.className = 'list-group-item';
+    //appending li to itemlist
+
+    //creating delete button
+    var deleteBtn = document.createElement('button');
+    //adding class to delete
+    deleteBtn.className = 'btn btn-danger btn-sm delete'; 
+    deleteBtn.appendChild(document.createTextNode('X'));
+
+    //creating edit button
+    var editBtn = document.createElement('button');
+    //adding class to edit
+    editBtn.className = 'btn btn-success btn-sm';
+    editBtn.appendChild(document.createTextNode('Edit'));
+
+       //creating a div;
+    var div = document.createElement('div');
+    div.className = 'row-2 float-right';
+
+    div.appendChild(deleteBtn);
+    div.append(' ');
+    div.appendChild(editBtn); 
+    //creating textNode
+    li.appendChild(document.createTextNode(newItem.value));
+    li.appendChild(div);
+
+//     itemList.innerHTML += (`<li class="list-group-item">${newItem.value}
+//     <div class="float-right">
+//       <button class="btn btn-danger btn-sm delete">X</button>
+//       <button class="btn btn-success btn-sm">Edit</button> 
+//     </div>
+//   </li>`);
+    itemList.appendChild(li);
+
 }
 
 //removing item
