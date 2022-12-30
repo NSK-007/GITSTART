@@ -56,35 +56,12 @@ function addItem(e){
 
     var newItem = document.getElementById('item');
 
-    //creating new li
-    var li = document.createElement('li');
-    //adding class
-    li.className = 'row-2 list-group-item';
-    //appending li to itemlist
-
-    //creating delete button
-    var deleteBtn = document.createElement('button');
-    //adding class to delete
-    deleteBtn.className = 'btn btn-danger btn-sm delete'; 
-    deleteBtn.appendChild(document.createTextNode('X'));
-
-    //creating edit button
-    var editBtn = document.createElement('button');
-    //adding class to edit
-    editBtn.className = 'btn btn-success btn-sm';
-    editBtn.appendChild(document.createTextNode('Edit'));
-
-       //creating a div;
-    var div = document.createElement('div');
-    div.className = 'float-right';
-
-    div.appendChild(deleteBtn);   
-    div.appendChild(editBtn); 
-    //creating textNode
-    li.appendChild(document.createTextNode(newItem.value));
-    li.appendChild(div);
-    itemList.appendChild(li);
-
+    itemList.innerHTML += (`<li class="list-group-item">${newItem.value} 
+    <div class="float-right">
+      <button class="btn btn-danger btn-sm delete">X</button>
+      <button class="btn btn-success btn-sm">Edit</button> 
+    </div>
+  </li>`);
 }
 
 //removing item
