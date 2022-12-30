@@ -41,8 +41,8 @@
 // ul.insertBefore(newDiv, li);
 
 
-var form = document.querySelector('#addForm');
-var itemList = document.querySelector('#items');
+var form = document.getElementById('addForm');
+var itemList = document.getElementById('items');
 
 //Listen to Submit
 form.addEventListener('submit', addItem);
@@ -54,33 +54,21 @@ itemList.addEventListener('click', removeItem);
 function addItem(e){
     e.preventDefault();
 
-    var newItem = document.querySelector('#item');
+    var newItem = document.getElementById('item');
 
-    //creating new li
-    var li = document.createElement('li');
-    //creating textNode
-    li.appendChild(document.createTextNode(newItem.value));
-    //adding class
-    li.className = 'list-group-item';
-    //appending li to itemlist
-    
-
-    //creating delete button
-    var deleteBtn = document.createElement('button');
-    //adding class to delete
-    deleteBtn.className = 'btn btn-danger btn-sm float-right delete'; 
-    deleteBtn.appendChild(document.createTextNode('X'));
-
-    li.appendChild(deleteBtn);
-    itemList.appendChild(li);
-
+    itemList.innerHTML += (`<li class="list-group-item">${newItem.value} 
+    <div class="float-right">
+      <button class="btn btn-danger btn-sm delete">X</button>
+      <button class="btn btn-success btn-sm">Edit</button> 
+    </div>
+  </li>`);
 }
 
 //removing item
 function removeItem(e){
     if(e.target.classList.contains('delete')){
         if(confirm('are you sure?')){
-            var li = e.target.parentElement;
+            var li = e.target.parentElement.parentElement;
             itemList.removeChild(li);
         }
     }
