@@ -62,7 +62,7 @@ function addItem(e){
         var msg = document.querySelector('.msg');
         msg.classList.add('error');
         msg.innerHTML = "Please enter all fields";
-        setTimeout(() => {msg.remove(); location.reload()}, 3000);
+        setTimeout(() => {msg.remove();}, 3000);
     }
 
     //creating new li
