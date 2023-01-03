@@ -132,6 +132,7 @@ function filterItems(e){
 }
 
 function loadItems(e){
+    // console.log(typeof localStorage.getItem('Item 5'));
     for(x in localStorage){
         if(x=='length')
             break;
