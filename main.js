@@ -104,8 +104,13 @@ function addItem(e){
     var li = createNewLi(newItem.value, newItemDesc.value);
 
     itemList.appendChild(li);
-    localStorage.setItem(newItem.value, newItemDesc.value);
-
+    var length = localStorage.length;
+    var obj = {
+        item : newItem.value,
+        desc : newItemDesc.value
+    }
+    obj = JSON.stringify(obj);
+    localStorage.setItem(length+1, obj);
 }
 
 //removing item
@@ -114,6 +119,17 @@ function removeItem(e){
         if(confirm('are you sure?')){
             var li = e.target.parentElement.parentElement;
             itemList.removeChild(li);
+            // console.log(e.target.parentElement.parentElement.firstChild);
+            var val = e.target.parentElement.parentElement.firstChild.textContent;
+
+            for(let i=0;i<localStorage.length;i++){
+                let key = localStorage.key(i);
+                let value = JSON.parse(localStorage[key]);
+                // console.log(typeof val);
+                // console.log(typeof value.value);
+                if(val.includes(value.item+" "+value.desc))
+                    localStorage.removeItem(key);
+            }
         }
     }
 }
@@ -136,10 +152,10 @@ function loadItems(e){
     for(x in localStorage){
         if(x=='length')
             break;
-        else
-            console.log(x);
         var value = localStorage.getItem(x);
-        var li = createNewLi(x, value);
+        console.log(value);
+        value = JSON.parse(value);
+        var li = createNewLi(value.item, value.desc);
         itemList.appendChild(li);
     }
 }
