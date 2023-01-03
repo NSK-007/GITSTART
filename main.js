@@ -43,6 +43,8 @@
 
 var form = document.getElementById('addForm');
 var itemList = document.getElementById('items');
+var filter = document.getElementById('filter');
+
 
 //Listen to Submit
 form.addEventListener('submit', addItem);
@@ -50,21 +52,23 @@ form.addEventListener('submit', addItem);
 //Listen to delete item
 itemList.addEventListener('click', removeItem);
 
+//Listen to Filter event
+filter.addEventListener('keyup', filterItems);
+
 //adding Item
 function addItem(e){
 
     e.preventDefault();
-
     var newItem = document.getElementById('item');
-    var ele = document.querySelector('.msg');
-        console.log(ele);
-    if(newItem.value==''){
-        var msg = document.querySelector('.msg');
-        msg.classList.add('error');
+    var newItemDesc = document.getElementById('itemDesc');
+    if(newItem.value=='' || newItemDesc.value==''){
+        var msg = document.querySelector('#msg');
+        console.log(msg)
+        msg.className = 'alert alert-danger';
         msg.innerHTML = "Please enter all fields";
-        setTimeout(() => {msg.remove();}, 3000);
+        setTimeout(() => {msg.className = ''; msg.innerHTML = ''}, 3000);
+        return;
     }
-
     //creating new li
     var li = document.createElement('li');
     //adding class
@@ -91,7 +95,7 @@ function addItem(e){
     div.append(' ');
     div.appendChild(editBtn); 
     //creating textNode
-    li.appendChild(document.createTextNode(newItem.value));
+    li.appendChild(document.createTextNode(newItem.value+' '+newItemDesc.value));
     li.appendChild(div);
 
 //     itemList.innerHTML += (`<li class="list-group-item">${newItem.value}
@@ -112,6 +116,19 @@ function removeItem(e){
             itemList.removeChild(li);
         }
     }
+}
+
+//filtering item
+function filterItems(e){
+    var text = e.target.value.toLowerCase();
+    var items = itemList.getElementsByTagName('li');
+    Array.from(items).forEach(function(item){
+        var itemName = item.firstChild.textContent;
+        if(itemName.toLowerCase().indexOf(text) != -1)
+            item.style.display = 'block';
+        else
+            item.style.display = 'none';
+    });
 }
 
 
