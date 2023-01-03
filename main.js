@@ -45,7 +45,6 @@ var form = document.getElementById('addForm');
 var itemList = document.getElementById('items');
 var filter = document.getElementById('filter');
 
-
 //Listen to Submit
 form.addEventListener('submit', addItem);
 
@@ -55,20 +54,7 @@ itemList.addEventListener('click', removeItem);
 //Listen to Filter event
 filter.addEventListener('keyup', filterItems);
 
-//adding Item
-function addItem(e){
-
-    e.preventDefault();
-    var newItem = document.getElementById('item');
-    var newItemDesc = document.getElementById('itemDesc');
-    if(newItem.value=='' || newItemDesc.value==''){
-        var msg = document.querySelector('#msg');
-        console.log(msg)
-        msg.className = 'alert alert-danger';
-        msg.innerHTML = "Please enter all fields";
-        setTimeout(() => {msg.className = ''; msg.innerHTML = ''}, 3000);
-        return;
-    }
+function createNewLi(key, value){
     //creating new li
     var li = document.createElement('li');
     //adding class
@@ -95,16 +81,30 @@ function addItem(e){
     div.append(' ');
     div.appendChild(editBtn); 
     //creating textNode
-    li.appendChild(document.createTextNode(newItem.value+' '+newItemDesc.value));
+    li.appendChild(document.createTextNode(key+' '+value));
     li.appendChild(div);
 
-//     itemList.innerHTML += (`<li class="list-group-item">${newItem.value}
-//     <div class="float-right">
-//       <button class="btn btn-danger btn-sm delete">X</button>
-//       <button class="btn btn-success btn-sm">Edit</button> 
-//     </div>
-//   </li>`);
+    return li;
+}
+
+//adding Item
+function addItem(e){
+
+    e.preventDefault();
+    var newItem = document.getElementById('item');
+    var newItemDesc = document.getElementById('itemDesc');
+    if(newItem.value=='' || newItemDesc.value==''){
+        var msg = document.querySelector('#msg');
+        console.log(msg)
+        msg.className = 'alert alert-danger';
+        msg.innerHTML = "Please enter all fields";
+        setTimeout(() => {msg.className = ''; msg.innerHTML = ''}, 3000);
+        return;
+    }
+    var li = createNewLi(newItem.value, newItemDesc.value);
+
     itemList.appendChild(li);
+    localStorage.setItem(newItem.value, newItemDesc.value);
 
 }
 
@@ -129,6 +129,18 @@ function filterItems(e){
         else
             item.style.display = 'none';
     });
+}
+
+function loadItems(e){
+    for(x in localStorage){
+        if(x=='length')
+            break;
+        else
+            console.log(x);
+        var value = localStorage.getItem(x);
+        var li = createNewLi(x, value);
+        itemList.appendChild(li);
+    }
 }
 
 
