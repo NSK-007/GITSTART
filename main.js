@@ -54,6 +54,9 @@ itemList.addEventListener('click', removeItem);
 //Listen to Filter event
 filter.addEventListener('keyup', filterItems);
 
+//Listen to Edit event
+itemList.addEventListener('click', editItems);
+
 function createNewLi(key, value){
     //creating new li
     var li = document.createElement('li');
@@ -104,13 +107,31 @@ function addItem(e){
     var li = createNewLi(newItem.value, newItemDesc.value);
 
     itemList.appendChild(li);
-    var length = localStorage.length;
+    
     var obj = {
         item : newItem.value,
         desc : newItemDesc.value
     }
     obj = JSON.stringify(obj);
-    localStorage.setItem(length+1, obj);
+    localStorage.setItem(newItem.value, obj);
+
+    newItem.value = '';
+    newItemDesc.value = '';
+}
+
+//remove from local storage
+function deleteLocalStorage(val){
+    for(let i=0;i<localStorage.length;i++){
+        let key = localStorage.key(i);
+        let value = JSON.parse(localStorage[key]);
+        // console.log(typeof val);
+        // console.log(typeof value.value);
+        if(val.includes(value.item+" "+value.desc)){
+            localStorage.removeItem(key);
+            const arr =  [key, value.desc];
+            return arr;
+        }
+    }
 }
 
 //removing item
@@ -121,16 +142,27 @@ function removeItem(e){
             itemList.removeChild(li);
             // console.log(e.target.parentElement.parentElement.firstChild);
             var val = e.target.parentElement.parentElement.firstChild.textContent;
-
-            for(let i=0;i<localStorage.length;i++){
-                let key = localStorage.key(i);
-                let value = JSON.parse(localStorage[key]);
-                // console.log(typeof val);
-                // console.log(typeof value.value);
-                if(val.includes(value.item+" "+value.desc))
-                    localStorage.removeItem(key);
-            }
+            deleteLocalStorage(val);
         }
+    }
+}
+
+//editing item
+function editItems(e){
+    if(e.target.classList.contains('btn-success')){
+
+        var item = document.querySelector('#item');
+        var desc = document.querySelector('#itemDesc');
+
+        var li = e.target.parentElement.parentElement;
+        itemList.removeChild(li);
+
+        var val = e.target.parentElement.parentElement.firstChild.textContent;
+        arr = deleteLocalStorage(val);
+        item.value = arr[0];
+        desc.value = arr[1];
+        console.log(item.value +" "+ desc.value);
+
     }
 }
 
