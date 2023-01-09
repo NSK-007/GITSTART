@@ -192,5 +192,25 @@ function loadItems(e){
     }
 }
 
+//currying 
 
+//function currying
+var multiply = function(x,y){
+    console.log(x*y);
+}
+
+multiply(3,4);
+var multiplyBy2 = multiply.bind(this, 2);
+multiplyBy2(5);
+
+//Closure currying
+var division = function(x){
+    return function(y){
+        console.log(x/y);
+    } 
+}
+
+division(12, 3);
+var divisionBy2 = division(12);
+divisionBy2(2);
 
