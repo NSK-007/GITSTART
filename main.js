@@ -214,3 +214,182 @@ division(12, 3);
 var divisionBy2 = division(12);
 divisionBy2(2);
 
+
+this.table = 'House table';
+
+var cleanTable = function(){
+
+  console.log(`Cleaning ${this.table}`);
+
+}
+
+
+
+this.garage = {
+
+  table : 'Garage Table',
+
+}
+
+
+
+let room = {
+
+  table : 'Room\'s Table',
+
+}
+
+
+
+cleanTable.call(this);
+
+cleanTable.call(room);
+
+cleanTable.call(this.garage);
+
+
+
+//constructor
+
+let addCleanTable = function(name){
+
+  this.table = `${name}s table`;
+
+}
+
+
+
+addCleanTable.prototype.cleanTable = function cleanTable(){
+
+  console.log(`Cleaning ${this.table}`);
+
+}
+
+
+
+let johnRoom = new addCleanTable('John');
+
+johnRoom.cleanTable();
+
+let jillRoom = new addCleanTable('Jill');
+
+jillRoom.cleanTable();
+
+
+
+//class
+
+class CreateRooms{
+
+  constructor(name){
+
+    this.table = `${name}s table`;
+
+  }
+
+
+
+  cleanTable(){
+
+    console.log(`Cleaning ${this.table}`);
+
+  }
+
+}
+
+
+
+var JackRoom = new CreateRooms('Jack');
+
+JackRoom.cleanTable();
+
+
+
+class Student{
+
+  static count=0;
+
+  constructor(name, age, phone, marks){
+
+    this.name = name;
+
+    this.age = age;
+
+    this.phone = phone;
+
+    this.marks = marks;
+
+    Student.countObjects(Student.count);
+
+  }
+
+  printStudentDetails(){
+
+    console.log(this.name, this.age, this.phone, this.marks);
+
+  }
+
+
+
+  static countObjects(count){
+
+    Student.count++;
+
+  }
+
+
+
+  isEligible(){
+
+    if(this.marks>=40){
+
+      return true;
+
+    }
+
+    else
+
+      return false;
+
+  }
+
+
+
+  checkEligibility(){
+
+    if(this.isEligible())
+
+      console.log("Eligible");
+
+    else
+
+      console.log("Not Eligible")
+
+  }
+
+}
+
+
+
+let s1 = new Student('John', 22, 7989180090, 96);
+
+let s2 = new Student('Jill', 20, 8009012345, 95);
+
+let s3 = new Student('Jack', 23, 8918009023, 32);
+
+let s4 = new Student('James', 19, 9180090123, 91);
+
+let s5 = new Student('Jerry', 25, 0909182345, 39);
+
+
+
+s1.checkEligibility();
+
+s5.checkEligibility();
+
+
+
+console.log(Student.count);
+
+
+
